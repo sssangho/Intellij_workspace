@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.18'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'war' // JSP 사용 시 반드시 필요!
+}
+
+group = 'com.example'
+version = '1.0.0'
+sourceCompatibility = '11' // 또는 17
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // JSP + Servlet 관련
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat' // 내장 Tomcat, war로 쓸 때 provided
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper' // JSP 컴파일
+    implementation 'javax.servlet:jstl' // JSTL 사용
+
+    // Spring Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    // MyBatis + JDBC
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'com.mysql:mysql-connector-j:8.0.33'
+
+    // 테스트 (선택)
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // ✅ 테스트용 의존성 반드시 추가
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.3.1'
+}
+
+// WAR 파일로 빌드할 수 있도록 설정
+bootWar {
+    enabled = true
+}
+bootJar {
+    enabled = false
+}

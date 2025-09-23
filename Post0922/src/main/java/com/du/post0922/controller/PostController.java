@@ -1,6 +1,8 @@
 package com.du.post0922.controller;
 
+import com.du.post0922.domain.Comment;
 import com.du.post0922.domain.Post;
+import com.du.post0922.service.CommentService;
 import com.du.post0922.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+    private final CommentService commentService;
 
     // 게시글 목록
     @GetMapping("/posts")
@@ -67,7 +70,21 @@ public class PostController {
     public String detail(@PathVariable Long id, Model model) {
         Post post = postService.findById(id);
         model.addAttribute("post", post);
+        model.addAttribute("comments", commentService.getCommentsByPostId(id));
         return "detail"; // /WEB-INF/jsp/detail.jsp
+    }
+
+    // 댓글 작성 처리
+    @PostMapping("/posts/{id}/comments")
+    public String addComment(@PathVariable Long id,
+                             @RequestParam String writer,
+                             @RequestParam String content) {
+        Comment comment = new Comment();
+        comment.setPostId(id);
+        comment.setWriter(writer);
+        comment.setContent(content);
+        commentService.addComment(comment);
+        return "redirect:/posts/" + id;
     }
 
     // 글 삭제 처리

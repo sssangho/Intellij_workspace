@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>게시글 상세</title>
@@ -20,6 +21,33 @@
 
     <a href="/posts" class="btn btn-secondary">목록</a>
 </div>
+
+<hr/>
+
+<!-- 댓글 목록 -->
+<h4 class="mt-5">💬 댓글</h4>
+<div class="mb-3">
+    <c:forEach var="comment" items="${comments}">
+        <div class="border rounded p-3 mb-2">
+            <strong>${comment.writer}</strong>
+            <small class="text-muted float-end">${comment.createdAt}</small>
+            <p class="mb-0">${comment.content}</p>
+        </div>
+    </c:forEach>
+</div>
+
+<!-- 댓글 작성 폼 -->
+<form method="post" action="/posts/${post.id}/comments" class="mt-4">
+    <div class="mb-2">
+        <label class="form-label">작성자</label>
+        <input type="text" name="writer" class="form-control" required/>
+    </div>
+    <div class="mb-2">
+        <label class="form-label">내용</label>
+        <textarea name="content" class="form-control" rows="3" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">댓글 작성</button>
+</form>
 
 </body>
 </html>

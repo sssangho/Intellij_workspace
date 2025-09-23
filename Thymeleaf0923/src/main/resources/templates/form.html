@@ -1,0 +1,16 @@
+<!-- resources/templates/hello.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hello</title>
+</head>
+<body>
+<form th:action="@{/form}" th:object="${memo}" method="post">
+    제목: <input type="text" th:field="*{title}" /><br>
+    내용: <textarea th:field="*{content}"></textarea><br>
+    <button type="submit">제출</button>
+</form>
+
+
+</body>
+</html>

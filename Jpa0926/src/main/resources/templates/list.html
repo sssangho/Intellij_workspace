@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 목록</title>
+</head>
+<body>
+<h1>게시글 목록</h1>
+<a th:href="@{/post/new}">글 작성하기</a>
+<hr>
+<ul>
+    <li th:each="post : ${posts}">
+        <a th:href="@{'/post/' + ${post.id}}">
+            <strong th:text="${post.title}">제목</strong>
+        </a>
+    </li>
+</ul>
+</body>
+</html>

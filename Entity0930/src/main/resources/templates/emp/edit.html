@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>사원 수정</title>
+</head>
+<body>
+<h1>사원 수정</h1>
+
+<form th:action="@{|/emps/${emp.id}/edit|}" th:object="${emp}" method="post">
+    <div>
+        <label for="name">이름:</label>
+        <input type="text" id="name" th:field="*{name}" />
+    </div>
+
+    <div>
+        <label for="email">이메일:</label>
+        <input type="email" id="email" th:field="*{email}" />
+    </div>
+
+    <div>
+        <label for="dept">부서:</label>
+        <select id="dept" th:field="*{dept}">
+            <option th:each="d : ${depts}"
+                    th:value="${d.id}"
+                    th:text="${d.name}"
+                    th:selected="${d.id == emp.dept.id}">
+            </option>
+        </select>
+    </div>
+
+    <div>
+        <button type="submit">수정</button>
+        <a th:href="@{/emps}">취소</a>
+    </div>
+</form>
+</body>
+</html>

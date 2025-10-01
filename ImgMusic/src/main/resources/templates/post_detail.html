@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${post.title} + ' - 노래 상세'">노래 상세</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; margin-bottom: 10px; }
+        p { color: #555; line-height: 1.6; }
+        .image-gallery { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; }
+        .image-gallery img { max-width: 100%; max-height: 400px; object-fit: contain; border-radius: 8px; box-shadow: 0 3px 8px rgba(0,0,0,0.15); cursor: pointer; margin: 5px; flex: 1 1 300px; transition: transform 0.3s; }
+        .image-gallery img:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+        .btn { display: inline-block; text-decoration: none; color: white; padding: 10px 18px; border-radius: 6px; font-weight: 600; margin-right: 10px; transition: background-color 0.3s; }
+        .btn-back { background-color: #3498db; }
+        .btn-back:hover { background-color: #2980b9; }
+        .btn-edit { background-color: #2ecc71; }
+        .btn-edit:hover { background-color: #27ae60; }
+        .btn-delete { background-color: #e74c3c; border: none; cursor: pointer; }
+        .btn-delete:hover { background-color: #c0392b; }
+        audio { width: 100%; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 th:text="${post.title}">노래 제목</h1>
+    <p><strong>가수:</strong> <span th:text="${post.artist}">가수명</span></p>
+    <p class="content" th:text="${post.lyrics}">노래 가사</p>
+
+    <div th:if="${post.audioPath != null}" style="margin-bottom: 20px;">
+        <h4>듣기:</h4>
+        <a class="btn btn-back" th:href="${post.audioPath}" target="_blank">🎵 노래 듣기</a>
+    </div>
+
+    <div th:if="${post.images != null and !post.images.isEmpty()}">
+        <h4>첨부 이미지들:</h4>
+        <div class="image-gallery" th:each="img : ${post.images}">
+            <img th:src="${img.filePath}" th:alt="${img.fileName}" />
+        </div>
+    </div>
+
+    <div style="margin-top:20px;">
+        <a class="btn btn-back" th:href="@{/posts}">← 목록으로</a>
+        <a class="btn btn-edit" th:href="@{/posts/{id}/edit(id=${post.id})}">✎ 수정</a>
+        <form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post" style="display:inline;">
+            <button class="btn btn-delete" type="submit" onclick="return confirm('정말 삭제하시겠습니까?');">🗑️ 삭제</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

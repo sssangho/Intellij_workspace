@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${post.id != null} ? '노래 수정' : '노래 등록'">노래 등록</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f5f5; padding: 20px; }
+        h1 { text-align: center; color: #2c3e50; margin-bottom: 20px; }
+        form { background: white; padding: 20px; border-radius: 10px; max-width: 600px; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        p { margin-bottom: 15px; }
+        input[type="text"], textarea, input[type="file"] {
+            width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box;
+        }
+        button { background-color: #2ecc71; color: white; padding: 10px 20px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background-color 0.3s; }
+        button:hover { background-color: #27ae60; }
+        a { text-decoration: none; display: inline-block; margin-top: 10px; color: #3498db; }
+    </style>
+</head>
+<body>
+
+<h1 th:text="${post.id != null} ? '노래 수정' : '노래 등록'">노래 등록</h1>
+
+<form th:action="${post.id != null} ? @{/posts/{id}/edit(id=${post.id})} : @{/posts}"
+      th:object="${post}" method="post" enctype="multipart/form-data">
+
+    <p>노래 제목: <input type="text" th:field="*{title}" required /></p>
+    <p>가수: <input type="text" th:field="*{artist}" required /></p>
+    <p>가사: <textarea th:field="*{lyrics}" rows="5" required></textarea></p>
+    <p>노래 파일 (URL 또는 경로): <input type="text" th:field="*{audioPath}" placeholder="URL 또는 파일 경로"/></p>
+    <p>이미지 첨부: <input type="file" name="files" multiple /></p>
+
+    <button type="submit" th:text="${post.id != null} ? '수정' : '등록'">등록</button>
+</form>
+
+<div style="text-align:center;">
+    <a th:href="@{/posts}">← 목록으로</a>
+</div>
+
+</body>
+</html>

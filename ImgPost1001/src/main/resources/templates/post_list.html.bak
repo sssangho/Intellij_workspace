@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>게시글 목록</title>
+</head>
+<body>
+<h1>게시글 목록</h1>
+
+<!-- 게시글이 없을 경우 처리 -->
+<div th:if="${#lists.isEmpty(posts)}">
+    <p>게시글이 없습니다.</p>
+</div>
+
+<!-- 게시글 목록 -->
+<ul th:if="${not #lists.isEmpty(posts)}">
+    <li th:each="post : ${posts}">
+        <a th:href="@{/posts/{id}(id=${post.id})}"
+           th:text="${post.title}">게시글 제목</a>
+    </li>
+</ul>
+
+<br>
+<a th:href="@{/posts/new}">+ 새 게시글 작성</a>
+</body>
+</html>

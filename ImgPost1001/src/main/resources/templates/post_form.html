@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>게시글 작성</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fa;
+            display: flex;
+            justify-content: center;
+            padding: 50px 20px;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            max-width: 600px;
+            width: 100%;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #34495e;
+            margin-bottom: 30px;
+        }
+
+        form p {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        input[type="text"],
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.8px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        input[type="file"]:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            background-color: #3498db;
+            color: white;
+            font-size: 1.2em;
+            padding: 12px 0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            text-align: center;
+            width: 100%;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>게시글 작성</h1>
+
+    <form th:action="@{/posts}" th:object="${post}" method="post" enctype="multipart/form-data">
+        <p>
+            <label for="title">제목</label>
+            <input type="text" id="title" th:field="*{title}" required />
+        </p>
+        <p>
+            <label for="content">내용</label>
+            <textarea id="content" th:field="*{content}" required></textarea>
+        </p>
+        <p>
+            <label for="files">이미지 첨부 (여러 개 가능)</label>
+            <input type="file" id="files" name="files" multiple />
+        </p>
+        <button type="submit">등록</button>
+    </form>
+
+    <a class="back-link" th:href="@{/posts}">← 목록으로</a>
+</div>
+
+</body>
+</html>

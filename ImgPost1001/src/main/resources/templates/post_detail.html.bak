@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>게시글 상세</title></head>
+<body>
+<h1 th:text="${post.title}">제목</h1>
+<p th:text="${post.content}">내용</p>
+
+<div th:if="${post.images != null}">
+    <h4>첨부 이미지들:</h4>
+    <div th:each="img : ${post.images}">
+        <img th:src="${img.filePath}" width="300" style="margin:10px;" />
+    </div>
+</div>
+
+<a th:href="@{/posts}">← 목록으로</a>
+</body>
+</html>

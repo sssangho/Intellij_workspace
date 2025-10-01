@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>선택된 이미지</title>
+</head>
+<body>
+<h1>선택된 이미지</h1>
+
+<div>
+    <img th:src="@{${selectedImage.filePath}}" width="300" />
+    <p><strong>파일명:</strong> <span th:text="${selectedImage.fileName}"></span></p>
+    <p><strong>파일 경로:</strong> <span th:text="${selectedImage.filePath}"></span></p>
+</div>
+
+<br>
+<a th:href="@{/}">← 목록으로 돌아가기</a>
+</body>
+</html>

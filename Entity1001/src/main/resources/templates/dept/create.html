@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>부서 등록</title>
+</head>
+<body>
+<h1>부서 등록</h1>
+<form th:action="@{/depts/new}" th:object="${dept}" method="post">
+    <p>
+        이름: <input type="text" th:field="*{name}" />
+    </p>
+    <p>
+        <button type="submit">등록</button>
+    </p>
+</form>
+</body>
+</html>

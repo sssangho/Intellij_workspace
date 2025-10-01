@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>직원 등록</title>
+</head>
+<body>
+<h1>직원 등록</h1>
+<form th:action="@{/emps/new}" th:object="${emp}" method="post">
+    <p>이름: <input type="text" th:field="*{name}" /></p>
+    <p>이메일: <input type="text" th:field="*{email}" /></p>
+    <p>부서:
+        <select th:field="*{dept}">
+            <option th:each="dept : ${depts}"
+                    th:value="${dept.id}"
+                    th:text="${dept.name}">
+            </option>
+        </select>
+    </p>
+    <p><button type="submit">등록</button></p>
+</form>
+</body>
+</html>

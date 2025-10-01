@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>이미지 목록</title>
+</head>
+<body>
+<h1>업로드된 이미지 목록</h1>
+
+<form th:action="@{/select}" method="post">
+    <div th:each="image : ${images}">
+        <input type="radio" name="selectedImageId" th:value="${image.id}" required />
+        <img th:src="@{${image.filePath}}" width="150" />
+        <p th:text="${image.fileName}"></p>
+    </div>
+    <button type="submit">선택</button>
+</form>
+
+<br>
+<a th:href="@{/upload}">이미지 업로드</a>
+</body>
+</html>

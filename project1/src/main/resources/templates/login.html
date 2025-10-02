@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인 | DCODELAB</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<!-- ===== 헤더 ===== -->
+<header>
+    <div class="inner">
+        <h1><a th:href="@{/}">DCODLAB</a></h1>
+        <ul id="gnb">
+            <li><a href="#">DEPARTMENT</a></li>
+            <li><a href="#">GALLERY</a></li>
+            <li><a href="#">YOUTUBE</a></li>
+            <li><a href="#">COMMUNITY</a></li>
+            <li><a href="#">LOCATION</a></li>
+        </ul>
+        <ul class="util">
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Help</a></li>
+            <li><a th:href="@{/login}">Login</a></li>
+            <li><a th:href="@{/join}">Join</a></li>
+        </ul>
+    </div>
+</header>
+
+<!-- ===== 로그인 폼 ===== -->
+<main class="form-container">
+    <div class="inner">
+        <h2 class="form-title">로그인</h2>
+
+        <form th:action="@{/login}" method="post" class="form-box">
+            <div class="form-group">
+                <label for="email">이메일</label>
+                <input type="email" name="email" id="email" placeholder="이메일 입력" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="password" name="password" id="password" placeholder="비밀번호 입력" required>
+            </div>
+
+            <!-- 로그인 실패 메시지 표시 (선택) -->
+            <div class="error" th:if="${param.error}">
+                이메일 또는 비밀번호가 올바르지 않습니다.
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">로그인</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<!-- ===== 푸터 ===== -->
+<footer>
+    <div class="inner">
+        <div class="upper">
+            <h1>DCODELAB</h1>
+            <ul>
+                <li><a href="#">Policy</a></li>
+                <li><a href="#">Terms</a></li>
+                <li><a href="#">Family Site</a></li>
+                <li><a href="#">Sitemap</a></li>
+            </ul>
+        </div>
+        <div class="lower">
+            <address>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, facere.<br>
+                TEL : 031-111-1234 &nbsp;&nbsp; C.P : 010-1234-5678
+            </address>
+            <p>2020 DCODELAB &copy; All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

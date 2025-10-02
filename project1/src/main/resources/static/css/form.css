@@ -1,0 +1,66 @@
+/* 회원가입 폼 스타일 */
+.form-container {
+    padding: 60px 20px;
+    background-color: #f9f9f9;
+}
+
+.form-title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.form-box {
+    max-width: 500px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 30px 40px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    border-radius: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-group .error {
+    margin-top: 5px;
+    color: #d63031;
+    font-size: 13px;
+}
+
+.form-actions {
+    text-align: center;
+}
+
+.btn-submit {
+    background-color: #222;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #444;
+}

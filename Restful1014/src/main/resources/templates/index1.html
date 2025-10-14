@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>User CRUD (jQuery ajax 버전)</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: auto; }
+        table, th, td { border: 1px solid #ccc; border-collapse: collapse; padding: 8px; }
+        th { background-color: #f0f0f0; }
+        input { margin: 4px; }
+        td.clickable { color: blue; cursor: pointer; text-decoration: underline; }
+    </style>
+    <!-- ✅ jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>🧑 사용자 관리</h1>
+
+<h2>📋 사용자 목록</h2>
+<table id="userTable">
+    <thead>
+    <tr>
+        <th>ID</th><th>이름</th><th>이메일</th><th>액션</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<h2>➕ 사용자 추가</h2>
+<input type="text" id="name" placeholder="이름">
+<input type="email" id="email" placeholder="이메일">
+<button id="createBtn">등록</button>
+
+<h2>✏️ 사용자 수정</h2>
+<input type="number" id="editId" placeholder="ID" readonly>
+<input type="text" id="editName" placeholder="새 이름">
+<input type="email" id="editEmail" placeholder="새 이메일">
+<button id="updateBtn">수정</button>
+
+<script>
+    const API_BASE = 'http://localhost:8970/api/users';
+
+    // 사용자 목록 불러오기
+    function loadUsers() {
+        $.ajax({
+            url: API_BASE,
+            method: 'GET',
+            success: function(users) {
+                const $tbody = $('#userTable tbody');
+                $tbody.empty();
+
+                users.forEach(user => {
+                    const $tr = $(`
+                        <tr>
+                            <td class="clickable">${user.id}</td>
+                            <td>${user.name}</td>
+                            <td>${user.email}</td>
+                            <td><button class="deleteBtn" data-id="${user.id}">삭제</button></td>
+                        </tr>
+                    `);
+
+                    $tr.find('.clickable').on('click', function() {
+                        selectUser(user.id, user.name, user.email);
+                    });
+
+                    $tbody.append($tr);
+                });
+            }
+        });
+    }
+
+    // 사용자 선택 → 수정 폼 채우기
+    function selectUser(id, name, email) {
+        $('#editId').val(id);
+        $('#editName').val(name);
+        $('#editEmail').val(email);
+    }
+
+    // 사용자 생성
+    function createUser() {
+        const name = $('#name').val();
+        const email = $('#email').val();
+
+        $.ajax({
+            url: `${API_BASE}?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`,
+            method: 'POST',
+            success: function() {
+                alert("사용자가 등록되었습니다.");
+                $('#name').val('');
+                $('#email').val('');
+                loadUsers();
+            }
+        });
+    }
+
+    // 사용자 수정
+    function updateUser() {
+        const id = $('#editId').val();
+        const name = $('#editName').val();
+        const email = $('#editEmail').val();
+
+        $.ajax({
+            url: `${API_BASE}/${id}?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`,
+            method: 'PUT',
+            success: function() {
+                alert("사용자가 수정되었습니다.");
+                $('#editId').val('');
+                $('#editName').val('');
+                $('#editEmail').val('');
+                loadUsers();
+            }
+        });
+    }
+
+    // 사용자 삭제
+    function deleteUser(id) {
+        if (!confirm("정말 삭제하시겠습니까?")) return;
+
+        $.ajax({
+            url: `${API_BASE}/${id}`,
+            method: 'DELETE',
+            success: function() {
+                alert("사용자가 삭제되었습니다.");
+                loadUsers();
+            }
+        });
+    }
+
+    // 이벤트 연결 및 초기 로딩
+    $(document).ready(function() {
+        $('#createBtn').on('click', createUser);
+        $('#updateBtn').on('click', updateUser);
+
+        // 삭제 버튼은 동적이므로 위임 방식
+        $('#userTable').on('click', '.deleteBtn', function() {
+            const id = $(this).data('id');
+            deleteUser(id);
+        });
+
+        loadUsers();
+    });
+</script>
+</body>
+</html>

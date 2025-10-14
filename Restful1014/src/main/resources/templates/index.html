@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>🧑 사용자 관리</h1>
+
+<h2>📋 사용자 목록</h2>
+<table id="userTable">
+    <thead>
+    <tr>
+        <th>ID</th><th>이름</th><th>이메일</th><th>액션</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function loadUsers() {
+        $.ajax({
+            url: 'http://localhost:8970/api/users',
+            method: 'GET',
+            success: function(data){
+                const $tbody = $('#userTable tbody');
+                $tbody.empty();
+
+                data.forEach(user => {
+                    const $tr = $(`
+                        <tr>
+                            <td class="clickable">${user.id}</td>
+                            <td>${user.name}</td>
+                            <td>${user.email}</td>
+                            <td><button class="deleteBtn" data-id="${user.id}">삭제</button></td>
+                        </tr>
+                    `);
+
+                    $tr.find('.clickable').on('click', function() {
+                        alert("클릭");
+                        // selectUser(user.id, user.name, user.email);
+                    });
+
+                    $tbody.append($tr);
+                });
+
+            }
+        });
+    }
+
+    $(document).ready(function() {
+    loadUsers();
+    });
+
+</script>
+</body>
+</html>

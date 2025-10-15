@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register</title>
+</head>
+<body>
+<h2>회원가입</h2>
+<div th:if="${errorMessage}">
+    <p th:text="${errorMessage}" style="color:red;"></p>
+</div>
+<form th:action="@{/register}" th:object="${userDto}" method="post">
+    <div>
+        <input type="text" th:field="*{username}" placeholder="Username" />
+    </div>
+    <div>
+        <input type="password" th:field="*{password}" placeholder="Password" />
+    </div>
+    <div>
+        <input type="text" th:field="*{role}" placeholder="Role (예: USER 또는 ADMIN)" />
+        <small>공백이거나 지정 안 하면 기본 USER</small>
+    </div>
+    <div>
+        <button type="submit">Register</button>
+    </div>
+</form>
+<a th:href="@{/login}">Login</a>
+</body>
+</html>

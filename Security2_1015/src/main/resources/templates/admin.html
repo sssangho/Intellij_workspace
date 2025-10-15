@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin</title>
+</head>
+<body>
+<h1>Admin Page</h1>
+<p>관리자 권한이 필요한 페이지입니다.</p>
+<p>현재 사용자: <span th:text="${username}"></span></p>
+<div>
+    <a th:href="@{/home}">Home</a> |
+    <a th:href="@{/logout}">Logout</a>
+</div>
+</body>
+</html>

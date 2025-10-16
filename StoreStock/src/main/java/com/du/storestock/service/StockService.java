@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class StockService {
@@ -45,5 +46,9 @@ public class StockService {
                 .build();
 
         return stockHistoryRepository.save(history);
+    }
+
+    public List<StockHistory> getStockHistory(Long productId) {
+        return stockHistoryRepository.findByProductId(productId);
     }
 }

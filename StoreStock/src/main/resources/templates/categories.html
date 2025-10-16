@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>카테고리 관리</title>
+</head>
+<body>
+<h1>카테고리 관리</h1>
+
+<!-- 새 카테고리 추가 폼 -->
+<form action="/categories/new" method="post">
+    <input type="text" name="name" placeholder="카테고리 이름" required>
+    <button type="submit">추가</button>
+</form>
+
+<br>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>카테고리 이름</th>
+        <th>상품 수</th>
+        <th>액션</th>
+    </tr>
+    <tr th:each="c : ${categories}">
+        <td th:text="${c.id}"></td>
+        <td th:text="${c.name}"></td>
+        <td th:text="${c.products.size()}"></td>
+        <td>
+            <!-- 수정 버튼 -->
+            <a th:href="@{/categories/edit/{id}(id=${c.id})}">수정</a>
+            <!-- 삭제 버튼: 상품 없을 때만 삭제 가능 -->
+            <span th:if="${c.products.isEmpty()}">
+                <a th:href="@{/categories/delete/{id}(id=${c.id})}">삭제</a>
+            </span>
+            <span th:if="${!c.products.isEmpty()}">삭제 불가</span>
+        </td>
+    </tr>
+</table>
+
+<br>
+<a href="/products">← 상품 목록으로 돌아가기</a>
+
+</body>
+</html>

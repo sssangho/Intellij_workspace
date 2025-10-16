@@ -1,0 +1,37 @@
+<!-- 상품 재고 내용 페이지 -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${product.name} + ' 재고 내역'"></title>
+</head>
+<body>
+<h1 th:text="${product.name} + ' 재고 내역'"></h1>
+<p>
+    현재 재고: <b th:text="${product.stock_quantity}"></b> 개
+</p>
+
+&nbsp;&nbsp;
+<a th:href="@{/stock/form/{id}(id=${product.id})}">
+    <button>입출고 기록 추가</button>
+</a>
+
+<hr>
+
+<table border="1">
+    <tr>
+        <th>날짜</th>
+        <th>입출고 유형</th>
+        <th>변동 수량</th>
+        <th>비고</th>
+    </tr>
+    <tr th:each="h : ${histories}">
+        <td th:text="${#temporals.format(h.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${h.type}"></td>
+        <td th:text="${h.changeQuantity}"></td>
+        <td th:text="${h.note}"></td>
+    </tr>
+</table>
+<a href="/products">← 상품 목록으로</a>
+</body>
+</html>

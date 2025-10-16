@@ -1,0 +1,36 @@
+<!-- 상품 등록 폼 -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품 등록</title>
+</head>
+<body>
+<h2>새 상품 등록</h2>
+
+<form action="/products/new" method="post">
+    <label>상품 이름:</label>
+    <input type="text" name="name" required><br>
+
+    <label>카테고리:</label>
+    <select name="category.id"> <!-- 엔티티 관계 때문에 category.id 사용 -->
+        <option value="">선택 안함</option>
+        <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+    </select><br><br>
+
+    <label>가격:</label>
+    <input type="number" name="price" step="0.01" min="0" required><br>
+
+    <label>초기 재고:</label>
+    <input type="number" name="stock_quantity"  min="0" required><br>
+
+    <label>이미지 URL (선택):</label>
+    <input type="text" name="imageUrl"><br>
+
+    <button type="submit">등록하기</button>
+</form>
+
+<br>
+<a href="/products">← 상품 목록으로 돌아가기</a>
+</body>
+</html>

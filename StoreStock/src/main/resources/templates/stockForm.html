@@ -1,0 +1,30 @@
+<!-- 입출고 처리 폼 -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>입출고 처리</title>
+</head>
+<body>
+<h2>입출고 처리</h2>
+
+<form action="/stock/update" method="post">
+    <input type="hidden" name="productId" th:value="${productId}" />
+    <label>수량:</label>
+    <input type="number" name="quantity" min="1" required>
+    <br>
+    <label>타입:</label>
+    <select name="type">
+        <option value="IN">입고</option>
+        <option value="OUT">출고</option>
+    </select>
+    <br>
+    <label>비고:</label>
+    <input type="text" name="note">
+    <br><br>
+    <button type="submit">처리</button>
+</form>
+
+<a href="/products">← 상품 목록으로 </a>
+</body>
+</html>

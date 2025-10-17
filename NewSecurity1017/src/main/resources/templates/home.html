@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www/thymelaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<h2>홈 페이지</h2>
+
+<!-- 로그인 상태 확인 -->
+<div sec:authorize="isAuthenticated()">
+    <p>안녕하세요, <span sec:authentication="name"></span>님!</p>
+    <form th:action="@{/logout}" method="post" >
+        <button type="submit">로그아웃</button>
+    </form>
+</div>
+
+<div sec:authorize="!isAuthenticated()">
+    <p>로그인하지 않은 사용자입니다. <a th:href="@{/login}"></a>로그인 하러 가기</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+package com.du.restful1017.repository;
+
+import com.du.restful1017.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+}
+

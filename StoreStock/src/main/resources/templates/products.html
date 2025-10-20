@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>상품 목록</title>
@@ -7,31 +7,51 @@
 <body>
 <h1>상품 목록</h1>
 
-<!-- 상품 추가 & 카테고리 관리 버튼 -->
-<a href="/products/new"><button>새 상품 추가</button></a>
-<a href="/categories"><button>카테고리 관리</button></a>
+<a href="/products/new"><button type="button">새 상품 추가</button></a>
+<a href="/categories"><button type="button">카테고리 관리</button></a>
 
 <br><br>
 
 <table border="1">
+    <thead>
     <tr>
-        <th>ID</th>
         <th>이름</th>
         <th>카테고리</th>
         <th>가격</th>
         <th>재고</th>
         <th>입출고</th>
+        <th>삭제</th>
     </tr>
+    </thead>
+    <tbody>
     <tr th:each="p : ${products}">
-        <td th:text="${p.id}"></td>
-        <td th:text="${p.name}"></td>
+        <td>
+            <a th:href="@{/products/edit/{id}(id=${p.id})}"
+               th:text="${p.name}"
+               style="text-decoration:none; color:blue; cursor:pointer;">
+            </a>
+        </td>
         <td th:text="${p.category != null ? p.category.name : '없음'}"></td>
         <td th:text="${p.price}"></td>
-        <td> <a th:href="@{/products/{id}/history(id=${p.id})}" th:text="${p.stock_quantity}"></a> </td>
+        <td>
+            <a th:href="@{/products/{id}/history(id=${p.id})}"
+               th:text="${p.stock_quantity}">
+            </a>
+        </td>
         <td>
             <a th:href="@{/stock/form/{id}(id=${p.id})}">등록</a>
         </td>
+        <td>
+            <form th:action="@{/products/delete/{id}(id=${p.id})}" method="post"
+                  onsubmit="return confirm('정말 삭제하시겠어요? 이력도 함께 삭제됩니다.');">
+                <!-- Spring Security 사용 시 CSRF 토큰 -->
+                <input type="hidden" th:if="${_csrf != null}"
+                       th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit">삭제</button>
+            </form>
+        </td>
     </tr>
+    </tbody>
 </table>
 
 </body>

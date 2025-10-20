@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${product.id == null ? '새 상품 등록' : '상품 수정'}"></title>
+</head>
+<body>
+<h1 th:text="${product.id == null ? '새 상품 등록' : '상품 수정'}"></h1>
+
+<form th:object="${product}" method="post"
+      th:action="${product.id} != null ? @{'/products/update/' + ${product.id}} : @{/products/save}">
+
+    <input type="hidden" th:field="*{id}" />
+
+    <label>상품 이름:</label>
+    <input type="text" th:field="*{name}" required><br><br>
+
+    <label>가격:</label>
+    <input type="number" th:field="*{price}" step="0.01" min="0" required><br><br>
+
+    <label>재고 수량:</label>
+    <input type="number" th:field="*{stock_quantity}" min="0"><br><br>
+
+    <label>카테고리:</label>
+    <!-- 컨트롤러에서 @RequestParam Long categoryId 받도록 설계 -->
+    <select name="categoryId">
+        <option th:each="c : ${categories}"
+                th:value="${c.id}"
+                th:selected="${product.category != null} ? ${c.id} == ${product.category.id} : false"
+                th:text="${c.name}">
+        </option>
+    </select><br><br>
+
+    <label>이미지 URL (선택):</label>
+    <input type="text" th:field="*{imageUrl}"><br><br>
+
+    <button type="submit"
+            th:text="${product.id == null ? '등록하기' : '수정하기'}">
+    </button>
+</form>
+
+</body>
+</html>

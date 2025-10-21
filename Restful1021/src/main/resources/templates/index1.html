@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>User CRUD UI</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        input, button { margin: 5px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h1>User CRUD UI</h1>
+
+<!-- User Form -->
+<div>
+    <input type="hidden" id="id">
+    <input type="text" id="username" placeholder="이름">
+    <input type="text" id="password" placeholder="이메일">
+    <button onclick="createOrUpdateUser()">저장</button>
+    <button onclick="clearForm()">취소</button>
+</div>
+
+<!-- User List -->
+<table id="userTable">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>이름</th>
+        <th>암호</th>
+        <th>동작</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+    const API_URL = 'http://localhost:8937/api/users';
+
+    //"HTML이 준비되면 사용자 목록을 자동으로 불러와!" 라는 의미
+    document.addEventListener('DOMContentLoaded', fetchUsers);
+
+    // 같은 내용들
+    // document.addEventListener('DOMContentLoaded', () => {
+    //     fetchUsers();
+    // });
+
+    // window.onload = function() {
+    //     fetchUsers();
+    // }
+
+
+    // 전체 사용자 조회
+    function fetchUsers() {
+        fetch(API_URL)
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.querySelector('#userTable tbody');
+                tbody.innerHTML = '';
+                data.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+          <td>${user.id}</td>
+          <td>${user.username}</td>
+          <td>${user.password}</td>
+          <td>
+            <button onclick="editUser(${user.id}, '${user.username}', ${user.password})">수정</button>
+            <button onclick="deleteUser(${user.id})">삭제</button>
+          </td>
+        `;
+                    tbody.appendChild(row);
+                });
+            });
+    }
+
+    // 사용자 생성 또는 수정
+    function createOrUpdateUser() {
+        const id = document.getElementById('id').value;
+        const username = document.getElementById('username').value.trim();
+        const password = parseInt(document.getElementById('password').value);
+
+        if (!username || !password) {
+            alert('이름과 암호를 입력하세요.');
+            return;
+        }
+
+        const user = { username, password };
+        const method = id ? 'PUT' : 'POST';
+        const url = id ? `${API_URL}/${id}` : API_URL;
+
+        fetch(url, {
+            method: method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(user)
+        })
+            .then(res => {
+                if (!res.ok) throw new Error('요청 실패');
+                return res.json();
+            })
+            .then(() => {
+                fetchUsers();
+                clearForm();
+            })
+            .catch(err => alert('에러 발생: ' + err.message));
+    }
+
+    // 사용자 삭제
+    function deleteUser(id) {
+        if (!confirm('정말 삭제하시겠습니까?')) return;
+
+        fetch(`${API_URL}/${id}`, { method: 'DELETE' })
+            .then(() => fetchUsers())
+            .catch(err => alert('삭제 실패: ' + err.message));
+    }
+
+    // 사용자 정보 편집
+    function editUser(id, username, password) {
+        document.getElementById('id').value = id;
+        document.getElementById('username').value = username;
+        document.getElementById('password').value = password;
+    }
+
+    // 폼 초기화
+    function clearForm() {
+        document.getElementById('id').value = '';
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+    }
+</script>
+
+</body>
+</html>

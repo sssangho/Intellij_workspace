@@ -36,47 +36,47 @@
     </thead>
     <tbody></tbody>
 </table>
-
-<script src="https://jquery.com/jquery-3.6.0.min.js"></script>
+<script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     const API_URL = 'http://localhost:8960/api/users';
 
-    // 문서가 로드되면 사용자 목록 불러오기
 
-    $(document).ready(function () {
-        fetchUsers()
+    // 문서가 로드되묜 사용자 목록 불러오기
+    $(document).ready(function (){
+        fetchUsers();
     });
 
-    // 사용자 목록 조회
-    function fetchUsers() {
+    // 사용자 목록 조회 ( 전체 사용자 )
+    function fetchUsers(){
         $.ajax({
-            url: API_URL,
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
+            url:API_URL,
+            method:'GET',
+            dataType:'json',
+            success: function (data){
                 const tbody = $('#userTable tbody');
                 tbody.empty();
 
-                data.forEach(function (user) {
-                    const row = `
-                    <tr>
+                data.forEach(function (user){
+                    const row =`
+                  <tr>
                     <td>${user.id}</td>
                     <td>${user.username}</td>
                     <td>${user.password}</td>
                     <td>
-                         <button onclick="editUser(${user.id}, '${user.username}', ${user.password})">수정</button>
-                         <button onclick="deleteUser(${user.id})">삭제</button>
-                    <td>
-                    </tr>
-                `;
+                      <button onClick="editUser(${user.id}, '${user.username}', ${user.password})">수정</button>
+                      <button onClick="deleteUser(${user.id})">삭제</button>
+                    </td>
+                  </tr>
+                  `;
                     tbody.append(row);
                 });
             },
-            error: function () {
+            error : function (){
                 alert('사용자 목록 불러오기 실패');
             }
         });
     }
+
 
     // 사용자 생성 또는 수정
     function createOrUpdateUser() {
@@ -108,35 +108,38 @@
         })
     }
 
+
     // 사용자 삭제
-    function deleteUser(id) {
-        if (!confirm('정말 삭제하시겠습니까?')) return;
+    function deleteUser(id){
+        if(!confirm('정말 삭제하시겠습니까?')) return;
 
         $.ajax({
-            url: `${API_URL}/${id}`,
+            url: `${API_URL}/$[id}`,
             method: 'DELETE',
-            success: function () {
+            success: function (){
                 fetchUsers();
             },
-            error: function () {
+            error:function (){
                 alert('삭제 실패');
             }
-        })
+        });
     }
 
     // 사용자 정보 편집
-    function editUser(id, username, password) {
-        $('#id').val(id);
-        $('#username').val(username);
-        $('#password').val(password);
+    function editUser(id,username,password){
+        $(`#id`).val(id);
+        $(`#username`).val(username);
+        $(`#password`).val(password);
     }
 
-    // 폼 초기화
-    function clearForm() {
-        $('#id').val('');
-        $('#username').val('');
-        $('#password').val('');
+    // 홈 초기화
+    function clearForm(){
+        $(`#id`).val('');
+        $(`#username`).val('');
+        $(`#password`).val('');
     }
+
+
 </script>
 
 </body>

@@ -1,0 +1,8 @@
+rootProject.name = 'Portal1023'
+
+include 'common'
+include 'portal-web'
+include 'sub-module-1'
+include 'sub-module-2'
+include 'sub-module-3'
+include 'sub-module-4'

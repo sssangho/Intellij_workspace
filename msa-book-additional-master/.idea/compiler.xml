@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="1.8" />
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="msa-book-additional.msa-architecture-server-config" options="-parameters" />
+      <module name="msa-book-additional.msa-architecture-server-config.main" options="-parameters" />
+      <module name="msa-book-additional.msa-architecture-server-config.test" options="-parameters" />
+      <module name="msa-book-additional.msa-architecture-server-eureka" options="-parameters" />
+      <module name="msa-book-additional.msa-architecture-server-eureka.main" options="-parameters" />
+      <module name="msa-book-additional.msa-architecture-server-eureka.test" options="-parameters" />
+      <module name="msa-book-additional.msa-architecture-server-zuul" options="-parameters" />
+      <module name="msa-book-additional.msa-architecture-server-zuul.main" options="-parameters" />
+      <module name="msa-book-additional.msa-architecture-server-zuul.test" options="-parameters" />
+      <module name="msa-book-additional.msa-service-coffee-member" options="-parameters" />
+      <module name="msa-book-additional.msa-service-coffee-member.main" options="-parameters" />
+      <module name="msa-book-additional.msa-service-coffee-member.test" options="-parameters" />
+      <module name="msa-book-additional.msa-service-coffee-order" options="-parameters" />
+      <module name="msa-book-additional.msa-service-coffee-order.main" options="-parameters" />
+      <module name="msa-book-additional.msa-service-coffee-order.test" options="-parameters" />
+      <module name="msa-book-additional.msa-service-coffee-status" options="-parameters" />
+      <module name="msa-book-additional.msa-service-coffee-status.main" options="-parameters" />
+      <module name="msa-book-additional.msa-service-coffee-status.test" options="-parameters" />
+    </option>
+  </component>
+</project>

@@ -1,0 +1,8 @@
+rootProject.name = 'MSA1024'
+
+include 'gateway-service'
+include 'eureka-server'
+include 'product-service'
+include 'order-service'
+include 'customer-service'
+include 'user-service'

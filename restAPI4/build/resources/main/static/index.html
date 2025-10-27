@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사용자 관리 시스템</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>사용자 관리 시스템</h2>
+        
+        <form id="userForm" class="mb-4">
+            <input type="hidden" id="userId">
+            <div class="mb-3">
+                <label for="name" class="form-label">이름</label>
+                <input type="text" class="form-control" id="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">이메일</label>
+                <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="age" class="form-label">나이</label>
+                <input type="number" class="form-control" id="age" required>
+            </div>
+            <button type="submit" class="btn btn-primary">저장</button>
+            <button type="button" class="btn btn-secondary" onclick="resetForm()">취소</button>
+        </form>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>이름</th>
+                    <th>이메일</th>
+                    <th>나이</th>
+                    <th>작업</th>
+                </tr>
+            </thead>
+            <tbody id="userList"></tbody>
+        </table>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            loadUsers();
+
+            $('#userForm').on('submit', function(e) {
+                e.preventDefault();
+                const userId = $('#userId').val();
+                const user = {
+                    name: $('#name').val(),
+                    email: $('#email').val(),
+                    age: parseInt($('#age').val())
+                };
+
+                const url = userId ? `/api/users/${userId}` : '/api/users';
+                const method = userId ? 'PUT' : 'POST';
+
+                $.ajax({
+                    url: url,
+                    type: method,
+                    contentType: 'application/json',
+                    data: JSON.stringify(user),
+                    success: function() {
+                        loadUsers();
+                        resetForm();
+                    },
+                    error: function(xhr) {
+                        alert('저장 중 오류가 발생했습니다: ' + xhr.responseText);
+                    }
+                });
+            });
+        });
+
+        function loadUsers() {
+            $.ajax({
+                url: '/api/users',
+                type: 'GET',
+                success: function(users) {
+                    const userList = $('#userList');
+                    userList.empty();
+                    
+                    if (users && users.length > 0) {
+                        users.forEach(function(user) {
+                            userList.append(`
+                                <tr>
+                                    <td>${user.id}</td>
+                                    <td>${user.name}</td>
+                                    <td>${user.email}</td>
+                                    <td>${user.age}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning me-1" onclick="editUser(${user.id})">수정</button>
+                                        <button class="btn btn-sm btn-danger" onclick="deleteUser(${user.id})">삭제</button>
+                                    </td>
+                                </tr>
+                            `);
+                        });
+                    } else {
+                        userList.append('<tr><td colspan="5" class="text-center">데이터가 없습니다.</td></tr>');
+                    }
+                },
+                error: function(xhr) {
+                    alert('데이터 로딩 중 오류가 발생했습니다: ' + xhr.responseText);
+                }
+            });
+        }
+
+        function editUser(id) {
+            $.ajax({
+                url: `/api/users/${id}`,
+                type: 'GET',
+                success: function(user) {
+                    $('#userId').val(user.id);
+                    $('#name').val(user.name);
+                    $('#email').val(user.email);
+                    $('#age').val(user.age);
+                },
+                error: function(xhr) {
+                    alert('사용자 정보 로딩 중 오류가 발생했습니다: ' + xhr.responseText);
+                }
+            });
+        }
+
+        function deleteUser(id) {
+            if (confirm('정말 삭제하시겠습니까?')) {
+                $.ajax({
+                    url: `/api/users/${id}`,
+                    type: 'DELETE',
+                    success: function() {
+                        loadUsers();
+                    },
+                    error: function(xhr) {
+                        alert('삭제 중 오류가 발생했습니다: ' + xhr.responseText);
+                    }
+                });
+            }
+        }
+
+        function resetForm() {
+            $('#userId').val('');
+            $('#name').val('');
+            $('#email').val('');
+            $('#age').val('');
+        }
+    </script>
+</body>
+</html> 

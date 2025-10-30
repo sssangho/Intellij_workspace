@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>RabbitMQ + H2 Example</title>
+</head>
+<body>
+<h1>Send Message to RabbitMQ</h1>
+
+<form action="/send" method="post">
+    <input type="text" name="content" placeholder="Message" required/>
+    <button type="submit">Send</button>
+</form>
+
+<h2>Messages in H2 DB:</h2>
+<ul>
+    <li th:each="msg : ${messages}" th:text="${msg.content}"></li>
+</ul>
+</body>
+</html>

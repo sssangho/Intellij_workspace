@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Message Sender</title>
+</head>
+<body>
+<h1>Send Product Message</h1>
+
+<form action="/send2" method="post">
+    <input type="text" name="title" placeholder="제목" required/>
+    <input type="number" name="quantity" placeholder="수량" required/>
+    <input type="text" name="productCode" placeholder="제품코드" required/>
+    <textarea name="content" placeholder="내용" required></textarea>
+    <button type="submit">Send</button>
+</form>
+
+<h2>Saved Messages</h2>
+<table border="1">
+    <tr>
+        <th>제목</th>
+        <th>수량</th>
+        <th>제품코드</th>
+        <th>내용</th>
+    </tr>
+    <tr th:each="msg : ${messages}">
+        <td th:text="${msg.title}"></td>
+        <td th:text="${msg.quantity}"></td>
+        <td th:text="${msg.productCode}"></td>
+        <td th:text="${msg.content}"></td>
+    </tr>
+</table>
+</body>
+</html>

@@ -27,14 +27,14 @@ public class WebController {
 
     @GetMapping("/movies")
     public String products(Model model) {
-        model.addAttribute("message", "상품 목록");
+        model.addAttribute("message", "영화 목록");
         return "movies";
     }
 
-    @GetMapping("/orders")
+    @GetMapping("/reviews")
     public String orders(Model model) {
-        model.addAttribute("message", "주문 목록");
-        return "orders";
+        model.addAttribute("message", "리뷰 목록");
+        return "reviews";
     }
 
     @GetMapping("/admin")

@@ -1,7 +1,7 @@
-CREATE TABLE IF NOT EXISTS MOVIES (
+CREATE TABLE IF NOT EXISTS REVIEWS (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(500) NOT NULL,
-    director VARCHAR(100) NOT NULL,
-    category VARCHAR(100)  NOT NULL,
-    release_date DATE NOT NULL
-); 
+    movie_id BIGINT NOT NULL,
+    reviewer_name VARCHAR(100) NOT NULL,
+    comment VARCHAR(255),
+    rating INT
+    );

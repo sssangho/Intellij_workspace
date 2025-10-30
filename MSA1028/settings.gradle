@@ -1,4 +1,4 @@
-rootProject.name = 'MSA1024'
+rootProject.name = 'MSA1028'
 
 include 'gateway-service'
 include 'eureka-server'

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/cust-service/MSA1030.cust-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/cust-service/MSA1030.cust-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/eureka-server/MSA1030.eureka-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/eureka-server/MSA1030.eureka-server.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service/MSA1030.gateway-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service/MSA1030.gateway-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-service/MSA1030.order-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order-service/MSA1030.order-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/product-service/MSA1030.product-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/product-service/MSA1030.product-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.test.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+</head>
+<body>
+<h2>Login</h2>
+
+<!-- 로그인 실패 메시지 -->
+<div th:if="${param.error}">
+    <p style="color:red;">아이디 또는 비밀번호가 잘 못 되었습니다.</p>
+</div>
+
+<!-- 로그아웃 성공 메시지 -->
+<div th:if="${param.logout}">
+    <p style="color:green;">성공적으로 로그아웃 되었습니다.</p>
+</div>
+
+<form th:action="@{/login}" method="post">
+    <label>
+        Username: <input type="text" name="username" autofocus />
+    </label><br><br>
+
+    <label>
+        Password: <input type="password" name="password" />
+    </label><br><br>
+
+    <button type="submit">로그인</button>
+</form>
+<a th:href="@{/register}">회원가입</a>
+</body>
+</html>

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: board-app
+description: Spring Boot Board Application
+type: application
+version: 0.1.0
+appVersion: "1.0.0" 

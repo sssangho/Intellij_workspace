@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 작성/수정</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 th:text="${board?.id != null ? '게시글 수정' : '게시글 작성'}"></h1>
+        <form th:action="@{${board?.id != null ? '/board/' + board.id : '/board'}}" 
+              th:object="${board}" method="post">
+            <input type="hidden" name="_method" th:value="${board?.id != null ? 'PUT' : 'POST'}">
+            <div class="mb-3">
+                <label for="title" class="form-label">제목</label>
+                <input type="text" class="form-control" id="title" name="title" 
+                       th:value="${board?.title}" required>
+            </div>
+            <div class="mb-3">
+                <label for="writer" class="form-label">작성자</label>
+                <input type="text" class="form-control" id="writer" name="writer" 
+                       th:value="${board?.writer}" required>
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">내용</label>
+                <textarea class="form-control" id="content" name="content" rows="5" 
+                          th:text="${board?.content}" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">저장</button>
+            <a href="/board" class="btn btn-secondary">취소</a>
+        </form>
+    </div>
+    <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html> 

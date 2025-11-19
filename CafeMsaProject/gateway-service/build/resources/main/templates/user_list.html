@@ -18,21 +18,24 @@
 <div th:replace="~{fragments/nav :: mainNav}"></div>
 
 <main class="main-content">
-    <div class="container py-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="container mt-4"><!-- 상품/장바구니와 맞추기: mt-4 -->
+
+        <!-- ✅ 제목 영역 -->
+        <div class="d-flex justify-content-between align-items-center mb-0 p-3">
             <h3 class="mb-0 page-title">
                 <i class="bi bi-receipt me-1"></i>
-                <span id="userOrderList"> 주문 내역</span></h3>
+                <span id="userOrderList"> 주문 내역</span>
+            </h3>
             <div>
-                <a href="/products" class="btn btn-outline-coffee">계속 쇼핑</a>
+                <a href="/products" class="btn btn-outline-coffee">상품 담기</a>
             </div>
         </div>
 
+        <!-- 로딩 표시 -->
         <div id="loading" class="d-flex align-items-center mb-3 text-coffee d-none">
             <div class="spinner-border me-2" role="status" aria-hidden="true"></div>
             <strong>주문을 불러오는 중…</strong>
         </div>
-
 
         <!-- 주문이 없을 때 -->
         <div id="empty" class="box-empty d-none">
@@ -53,20 +56,27 @@
             </div>
         </div>
 
-        <div id="orderTableCard" class="card card-elevated">
-            <div class="table-responsive">
-                <table class="table table-cafe mb-0 align-middle">
-                    <thead>
-                    <tr>
-                        <th style="width:120px">주문번호</th>
-                        <th style="width:100px">상태</th>
-                        <th class="text-end" style="width:100px">품목수</th>
-                        <th class="text-end" style="width:160px">총 금액</th>
-                        <th class="text-end" style="width:150px">자세히</th>
-                    </tr>
-                    </thead>
-                    <tbody id="tbody"></tbody>
-                </table>
+        <!-- ✅ 주문 내역 카드 (흰색 박스 안에 테이블) -->
+        <div id="orderTableCard" class="card card-elevated mt-3">
+            <div class="p-3"><!-- 카드 안 여백, 상품/장바구니와 동일 -->
+
+                <div class="table-responsive">
+                    <table class="table table-cafe mb-0 align-middle">
+                        <thead>
+                        <tr>
+                            <th style="width:120px">주문번호</th>
+                            <th style="width:100px">상태</th>
+                            <th class="text-end" style="width:100px">품목수</th>
+                            <th class="text-end" style="width:160px">총 금액</th>
+                            <th class="text-end" style="width:150px">자세히</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+                        <!-- JS로 주문 내역 렌더링 -->
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>

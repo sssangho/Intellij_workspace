@@ -18,8 +18,24 @@ async function loadOrderList() {
         if (!response.ok) throw new Error('발주 내역 불러오기 실패');
         const orders = await response.json();
 
-        const tbody = document.getElementById('orderListTableBody'); // HTML id와 맞춤
+        const tbody = document.getElementById('orderListTableBody');
+        const emptyBox = document.getElementById('cart-empty');
+
+        // 발주 테이블 전체 카드를 tbody 기준으로 찾음
+        const tableCard = tbody.closest('.card.card-elevated');
+
         tbody.innerHTML = '';
+
+        // 🔹 데이터가 없을 때
+        if (orders.length === 0) {
+            emptyBox.classList.remove('d-none');  // 빈 박스 보이기
+            tableCard.classList.add('d-none');    // 테이블 카드 숨기기
+            return;
+        }
+
+        // 🔹 데이터가 있을 때
+        emptyBox.classList.add('d-none');         // 빈 박스 숨기기
+        tableCard.classList.remove('d-none');     // 테이블 카드 보이기
 
         orders.forEach(order => {
             const tr = document.createElement('tr');
@@ -39,6 +55,7 @@ async function loadOrderList() {
         alert('발주 내역을 불러오는데 실패했습니다.');
     }
 }
+
 
 // ============================
 // 발주 상세보기 모달 열기

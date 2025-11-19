@@ -109,10 +109,10 @@ function applyUi(isAdmin, username, roleLabel){
         safeToggle(adminNav, true);
 
         if (primaryOrderBtn){
-            primaryOrderBtn.href = '/purchase-orders';
+            primaryOrderBtn.href = '/order_products';
             primaryOrderBtn.innerHTML = '<i class="bi bi-list-check me-1"></i> 발주내역 확인';
         }
-        if (footerOrdersLink) footerOrdersLink.setAttribute('href', '/purchase-orders');
+        if (footerOrdersLink) footerOrdersLink.setAttribute('href', '/order_products');
         if (footerOrdersText) footerOrdersText.textContent = '발주';
     }else{
         // 일반 유저 / 비로그인

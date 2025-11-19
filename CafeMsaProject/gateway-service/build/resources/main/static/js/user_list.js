@@ -105,17 +105,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // userId 는 있으면 쓰고, 없으면 예전 키/임시값으로 fallback
     const userIdFromNew   = localStorage.getItem('userId');
     const userIdFromLocal = localStorage.getItem('USER_ID');
     const userIdFromSess  = sessionStorage.getItem('USER_ID');
 
-    CURRENT_USER_ID = String(
-        userIdFromNew ||
-        userIdFromLocal ||
-        userIdFromSess ||
-        '1' // 마지막 임시값 (테스트용)
-    );
+// 👉 더 이상 '1' 같은 임시값 사용 X
+    CURRENT_USER_ID = userIdFromNew || userIdFromLocal || userIdFromSess;
+
+    if (!CURRENT_USER_ID) {
+        alert('로그인 정보가 올바르지 않습니다. 다시 로그인 해주세요.');
+        // 필요하면 토큰도 정리
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        location.href = '/login';
+        return;
+    }
+
+    CURRENT_USER_ID = String(CURRENT_USER_ID);
 
     console.debug('[orders list] token=', token,
         'username=', username,

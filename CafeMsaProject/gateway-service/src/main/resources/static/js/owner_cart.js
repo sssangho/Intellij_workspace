@@ -33,20 +33,42 @@ async function loadCartItems() {
         const items = await response.json();
 
         const tbody = document.getElementById('cartTableBody');
+        const emptyBox = document.getElementById('cart-empty');
+        // 테이블을 감싸는 card를 정확히 찾기 위해 tbody 기준으로 closest 사용
+        const tableCard = document.getElementById('cartTableBody')?.closest('.card.card-elevated');
+
+        // 안전하게 초기화
         tbody.innerHTML = '';
+        document.getElementById('cartTotal').textContent = '0';
+
+        // items가 배열이 아닌 경우에도 안전 처리
+        if (!Array.isArray(items) || items.length === 0) {
+            // 장바구니 비어있음 표시
+            if (emptyBox) emptyBox.classList.remove('d-none');
+            if (tableCard) tableCard.classList.add('d-none');
+            return;
+        }
+
+        // 장바구니가 있을 때: 빈 박스 숨기고 테이블 카드 보이기
+        if (emptyBox) emptyBox.classList.add('d-none');
+        if (tableCard) tableCard.classList.remove('d-none');
 
         let totalSum = 0;
 
+        // 장바구니 목록 표시
         items.forEach(item => {
-            const total = item.price * item.quantity;
+            // 방어적 처리: price/quantity가 숫자가 아닐 경우 안전하게 0 처리
+            const price = Number(item.price) || 0;
+            const quantity = Number(item.quantity) || 0;
+            const total = price * quantity;
             totalSum += total;
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${item.productId}</td>
                 <td>${item.productName}</td>
-                <td>${item.quantity}</td>
-                <td>${item.price.toLocaleString()} 원</td>
+                <td>${quantity}</td>
+                <td>${price.toLocaleString()} 원</td>
                 <td>${total.toLocaleString()} 원</td>
                 <td>
                     <button class="btn btn-sm btn-primary" onclick="editCartItem(${item.id})">수정</button>
@@ -63,6 +85,7 @@ async function loadCartItems() {
         alert('장바구니 목록을 불러오는데 실패했습니다.');
     }
 }
+
 
 /* ============================================
    🔹 상품 수정 모달 열기

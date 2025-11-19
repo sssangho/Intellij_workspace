@@ -89,6 +89,14 @@
                 localStorage.setItem('username', data.username);
                 localStorage.setItem('role', data.role);
 
+                if (data.userId != null) {          // 응답에 userId가 있을 때만
+                    localStorage.setItem('userId', data.userId);
+                    localStorage.setItem('USER_ID', data.userId); // 예전 js 호환용 (선택)
+                }
+
+                // 디버깅용
+                console.log('login response:', data);
+
                 // 로그인 후 홈으로 이동
                 window.location.href = '/';
             } else {

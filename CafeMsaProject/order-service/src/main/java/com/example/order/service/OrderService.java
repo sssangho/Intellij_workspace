@@ -49,4 +49,11 @@ public class OrderService {
 
         return orderRepository.save(order);
     }
+
+    // 👇 로그인한 유저의 주문 목록 조회
+    @Transactional(readOnly = true)
+    public List<Order> getOrdersByUser(Long userId) {
+        return orderRepository.findByUserIdOrderByIdDesc(userId);
+    }
+
 }

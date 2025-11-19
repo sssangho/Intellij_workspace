@@ -237,6 +237,16 @@ main,
     background-color: #f9f1e9;
 }
 
+/* 상품 썸네일 (상품 목록/관리용) */
+.product-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+
 /* ---------- 주문/발주 서브 네비 (order_* 페이지용) ---------- */
 
 .order-subnav .btn {
@@ -374,4 +384,73 @@ main,
 .footer a:hover {
     color: #fff;
     text-decoration: underline;
+}
+
+/* ---------- 공통 정사각형 페이지네이션 (상품/발주 공용) ---------- */
+
+.pagination-square-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.pagination-square {
+    display: inline-flex;
+    gap: 0.5rem;
+}
+
+.btn-page {
+    min-width: 38px;
+    height: 38px;
+    padding: 0;
+    border-radius: 12px;
+    border: 1px solid var(--coffee);
+    background-color: #fbf4ec;   /* 연한 크림색 */
+    color: var(--coffee);
+    font-weight: 500;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-page.active {
+    background-color: var(--coffee);
+    color: #fff;
+}
+
+.btn-page:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.fixed-table {
+    table-layout: fixed;
+    width: 100%;
+}
+.box-empty {
+    max-width: 600px;
+    margin: 40px auto 0;
+}
+
+/* 홈 전용 스크롤 스냅 컨테이너 */
+/* 전체 레이아웃: body는 세로로 쌓이고, main이 가운데에서 스크롤 */
+body.body-cream {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 가운데 스크롤 되는 영역 */
+.home-scroll {
+    flex: 1;                  /* 네비 + 푸터 빼고 나머지 높이를 차지 */
+    overflow-y: auto;         /* 여기서 스크롤 */
+    scroll-snap-type: y mandatory;
+}
+
+/* 한 화면씩 스냅되는 섹션들 */
+.home-section {
+    scroll-snap-align: start;
+    min-height: 100vh;        /* 섹션 하나가 화면 한 장 크기 */
 }

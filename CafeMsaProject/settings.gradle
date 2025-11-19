@@ -1,4 +1,4 @@
-rootProject.name = 'sb3_msa3'
+rootProject.name = 'CafeMsaProject'
 
 include 'gateway-service'
 include 'eureka-server'

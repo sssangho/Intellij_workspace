@@ -11,7 +11,7 @@ public class WebController {
     // 홈
     @GetMapping("/")
     public String index() {
-        return "index";
+        return "home";
     }
 
     // 인증/회원
@@ -34,24 +34,24 @@ public class WebController {
     // 주문(목록/체크아웃/상세)
     @GetMapping("/orders")
     public String orders() {
-        return "order_list";          // orders.html (목록)
+        return "user_list";          // orders.html (목록)
     }
 
     @GetMapping("/orders/checkout")
     public String ordersCheckout() {
-        return "orders_checkout"; // 필요 시 템플릿 파일 추가
+        return "user_checkout"; // 필요 시 템플릿 파일 추가
     }
 
     @GetMapping("/orders/{orderId}")
     public String orderDetail(@PathVariable Long orderId, Model model) {
         model.addAttribute("orderId", orderId);
-        return "order_detail";    // 필요 시 템플릿 파일 추가
+        return "user_detail";    // 필요 시 템플릿 파일 추가
     }
 
     // 장바구니
     @GetMapping("/cart")
     public String cart() {
-        return "cart";
+        return "user_cart";
     }
 
     // 즐겨찾기
@@ -63,23 +63,23 @@ public class WebController {
     // 고객관리
     @GetMapping("/admin")
     public String admin() {
-        return "admin";
+        return "users";
     }
 
     //발주
     @GetMapping("/order_carts")
     public String carts(Model model) {
         model.addAttribute("message", "발주 장바구니");
-        return "order_carts";
+        return "owner_cart";
     }
 
     @GetMapping("/order_orderlist")
     public String ordersPage() {
-        return "order_orderlist";
+        return "owner_list";
     }
 
     @GetMapping("/order_products")
     public String productsPage() {
-        return "order_products";
+        return "owner_order";
     }
 }

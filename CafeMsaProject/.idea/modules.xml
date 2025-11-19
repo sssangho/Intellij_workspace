@@ -2,20 +2,17 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/com.example.sb3_msa3.auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/com.example.sb3_msa3.auth-service.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/sb3_msa3.auth-service.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bookmark-service/sb3_msa3.bookmark-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/bookmark-service/sb3_msa3.bookmark-service.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/cart-service/sb3_msa3.cart-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/cart-service/sb3_msa3.cart-service.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/customer-service/sb3_msa3.customer-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/customer-service/sb3_msa3.customer-service.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/eureka-server/sb3_msa3.eureka-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/eureka-server/sb3_msa3.eureka-server.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service/sb3_msa3.gateway-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service/sb3_msa3.gateway-service.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-cart-service/sb3_msa3.order-cart-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order-cart-service/sb3_msa3.order-cart-service.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-orderlist-service/sb3_msa3.order-orderlist-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order-orderlist-service/sb3_msa3.order-orderlist-service.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-product-service/sb3_msa3.order-product-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order-product-service/sb3_msa3.order-product-service.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-service/sb3_msa3.order-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order-service/sb3_msa3.order-service.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/product-service/sb3_msa3.product-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/product-service/sb3_msa3.product-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/CafeMsaProject.auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/CafeMsaProject.auth-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bookmark-service/CafeMsaProject.bookmark-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/bookmark-service/CafeMsaProject.bookmark-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/cart-service/CafeMsaProject.cart-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/cart-service/CafeMsaProject.cart-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/customer-service/CafeMsaProject.customer-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/customer-service/CafeMsaProject.customer-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/eureka-server/CafeMsaProject.eureka-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/eureka-server/CafeMsaProject.eureka-server.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-service/CafeMsaProject.gateway-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-service/CafeMsaProject.gateway-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-cart-service/CafeMsaProject.order-cart-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order-cart-service/CafeMsaProject.order-cart-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-orderlist-service/CafeMsaProject.order-orderlist-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order-orderlist-service/CafeMsaProject.order-orderlist-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-product-service/CafeMsaProject.order-product-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order-product-service/CafeMsaProject.order-product-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-service/CafeMsaProject.order-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order-service/CafeMsaProject.order-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/product-service/CafeMsaProject.product-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/product-service/CafeMsaProject.product-service.main.iml" />
     </modules>
   </component>
 </project>

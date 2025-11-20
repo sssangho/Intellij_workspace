@@ -93,11 +93,13 @@ function renderProducts(products) {
             <td>${product.id}</td>
             <td style="display:flex; align-items:center; gap:10px;">
                 <img src="${product.imageUrl}" alt="${product.name}" width="60" height="60">
-                <a href="#" onclick="showProductDetail(${product.id})">${product.name}</a>
+                <a href="#" onclick="showProductDetail(${product.id})" style="text-decoration:none; color:#5C4033;">
+                    ${product.name}
+                </a>
             </td>
             <td>${product.price.toLocaleString()} 원</td>
             <td>
-                <div class="input-group input-group-sm" style="width:350px;">
+                <div class="input-group input-group-sm" style="width:300px;">
                     <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(${product.id}, -1)">−</button>
                     <input type="text" id="qty-${product.id}" class="form-control text-center" value="1" readonly>
                     <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(${product.id}, 1)">+</button>

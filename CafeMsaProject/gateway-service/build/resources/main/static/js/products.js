@@ -78,16 +78,20 @@ function renderNavBar() {
 
 function setupUIByRole() {
     const addBtn = document.getElementById('btn-add-product');
+    const cartBtn = document.getElementById('btn-go-cart');
     const actionHeader = document.getElementById('th-action');
 
     if (currentRole === 'ROLE_OWNER') {
         if (addBtn) addBtn.style.display = 'inline-block';
+        if (cartBtn) cartBtn.style.display = 'none';
         if (actionHeader) actionHeader.textContent = '작업';
     } else if (currentRole === 'ROLE_USER') {
         if (addBtn) addBtn.style.display = 'none';
+        if (cartBtn) cartBtn.style.display = 'inline-block';
         if (actionHeader) actionHeader.textContent = '장바구니';
     } else {
         if (addBtn) addBtn.style.display = 'none';
+        if (cartBtn) cartBtn.style.display = 'none';
         if (actionHeader) actionHeader.textContent = '';
     }
 }
@@ -195,25 +199,25 @@ function renderProducts() {
         const safeName = String(product.name ?? '').replace(/"/g, '&quot;');
 
         tr.innerHTML = `
-            <td>${product.id}</td>
-            <td>
-                <div class="d-flex align-items-center" style="gap:10px;">
-                    <img src="${imgSrc}"
-                         alt="${safeName}"
-                         class="rounded"
-                         style="width:50px;height:50px;object-fit:cover;">
-                    <button type="button"
-                            class="btn btn-link p-0 text-decoration-none text-start"
-                            onclick="showProductDetail(${product.id})">
-                        ${product.name}
-                    </button>
-                </div>
-            </td>
-            <td>${fmt(product.price)}원</td>
-            <td>${product.category || '-'}</td>
-            <td>${soldOutText}</td>
-            <td>${actionButtons}</td>
-        `;
+    <td>${product.id}</td>
+    <td>
+        <div class="d-flex align-items-center" style="gap:10px;">
+            <img src="${imgSrc}"
+                 alt="${safeName}"
+                 class="rounded"
+                 style="width:50px;height:50px;object-fit:cover;">
+            <a href="javascript:void(0)" 
+               onclick="showProductDetail(${product.id})" 
+               style="text-decoration:none; color:#6B4423;">
+                ${product.name}
+            </a>
+        </div>
+    </td>
+    <td>${fmt(product.price)}원</td>
+    <td>${product.category || '-'}</td>
+    <td>${soldOutText}</td>
+    <td>${actionButtons}</td>
+`;
         tbody.appendChild(tr);
     });
 }
@@ -451,9 +455,12 @@ async function addToFavorites(productId, productName, category, price) {
 
         const response = await fetch('/api/bookmarks', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'X-User-Id': String(userId)   // ✅ 필수 헤더 추가
+            },
             body: JSON.stringify({
-                userId,
+                // userId 는 굳이 안 보내도 됨 (서버에서 setUserId 해줌)
                 productId,
                 productName,
                 category,
@@ -461,10 +468,14 @@ async function addToFavorites(productId, productName, category, price) {
             })
         });
 
-        if (!response.ok) throw new Error();
+        if (!response.ok) {
+            const text = await response.text().catch(() => '');
+            throw new Error(`즐겨찾기 추가 실패 (${response.status}) ${text}`);
+        }
 
         alert('즐겨찾기에 추가되었습니다.');
-    } catch {
+    } catch (e) {
+        console.error(e);
         alert('즐겨찾기 추가 실패!');
     }
 }

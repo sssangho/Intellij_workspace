@@ -17,13 +17,16 @@ public class BookmarkController {
     private final BookmarkService bookmarkService;
 
     @GetMapping
-    public List<Bookmark> getBookmarks(@RequestParam(required = false) Long userId) {
+    public List<Bookmark> getBookmarks(@RequestHeader("X-User-Id") Long userId) {
         return bookmarkService.getBookmarks(userId);
     }
 
     @PostMapping
-    public ResponseEntity<?> addBookmark(@RequestBody Bookmark bookmark) {
+    public ResponseEntity<?> addBookmark(@RequestHeader("X-User-Id") Long userId,
+                                         @RequestBody Bookmark bookmark)
+    {
         try {
+            bookmark.setUserId(userId);
             Bookmark saved = bookmarkService.addBookmark(bookmark);
             return ResponseEntity.ok(saved);
         } catch (IllegalStateException e) {
@@ -32,9 +35,10 @@ public class BookmarkController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBookmark(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteBookmark(@RequestHeader("X-User-Id") Long userId,
+                                               @PathVariable Long id) {
         try {
-            bookmarkService.deleteBookmark(id);
+            bookmarkService.deleteBookmark(id, userId);
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();

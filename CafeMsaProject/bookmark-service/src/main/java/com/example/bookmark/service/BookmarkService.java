@@ -33,10 +33,10 @@ public class BookmarkService {
         return bookmarkRepository.save(bookmark);
     }
 
-    public void deleteBookmark(Long id) {
-        if (!bookmarkRepository.existsById(id)) {
+    public void deleteBookmark(Long id, Long userId) {
+        if (!bookmarkRepository.existsByIdAndUserId(id, userId)) {
             throw new IllegalArgumentException("not found");
         }
-        bookmarkRepository.deleteById(id);
+        bookmarkRepository.deleteByIdAndUserId(id, userId);
     }
 }

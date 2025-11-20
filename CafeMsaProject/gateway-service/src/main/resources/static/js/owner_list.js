@@ -44,7 +44,7 @@ async function loadOrderList() {
                 <td>${new Date(order.orderDate).toLocaleString()}</td>
                 <td>${order.totalPrice.toLocaleString()} 원</td>
                 <td>
-                    <button class="btn btn-outline-coffee ms-2" onclick="viewOrderItems(${order.id})">상세보기</button>
+                    <button class="btn btn-outline-secondary" onclick="viewOrderItems(${order.id})">상세보기</button>
                 </td>
             `;
             tbody.appendChild(tr);

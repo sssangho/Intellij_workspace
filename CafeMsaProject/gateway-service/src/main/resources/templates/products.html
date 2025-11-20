@@ -11,6 +11,34 @@
 
     <!-- ✅ 공통 스타일 -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <!-- ✅ 상품명 갈색 스타일 추가 -->
+    <style>
+        /* 상품명 링크 색상을 갈색으로 */
+        .table-cafe tbody td:nth-child(2) a {
+            color: #6B4423 !important;
+            text-decoration: none;
+        }
+
+        /* 마우스 올렸을 때 */
+        .table-cafe tbody td:nth-child(2) a:hover {
+            color: #8B5A3C !important;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* ID 컬럼 여백 줄이기 */
+        .table-cafe thead th:first-child,
+        .table-cafe tbody td:first-child {
+            padding-right: 8px;
+        }
+
+        /* 상품명 컬럼 왼쪽 여백 줄이기 */
+        .table-cafe thead th:nth-child(2),
+        .table-cafe tbody td:nth-child(2) {
+            padding-left: 8px;
+        }
+    </style>
 </head>
 <body class="body-cream">
 
@@ -26,9 +54,12 @@
                 <i class="bi bi-cup-hot me-2"></i>
                 <span id="productPageTitleText">상품 관리</span>
             </h2>
-            <!-- 사장(OWNER)일 때만 JS에서 보이게 제어 -->
-            <button id="btn-add-product" class="btn btn-coffee" type="button" onclick="showAddProductModal()">
+            <!-- 사장(OWNER)일 때는 상품 추가, 유저(USER)일 때는 장바구니 버튼 -->
+            <button id="btn-add-product" class="btn btn-outline-coffee" type="button" onclick="showAddProductModal()">
                 상품 추가
+            </button>
+            <button id="btn-go-cart" class="btn btn-outline-coffee" type="button" onclick="location.href='/cart'">
+                <i class="bi bi-cart3 me-1"></i>장바구니
             </button>
         </div>
 
@@ -63,6 +94,15 @@
                 <!-- 상품 테이블 -->
                 <div class="table-responsive">
                     <table class="table table-cafe table-hover align-middle mb-0 fixed-table">
+                        <colgroup>
+                            <col style="width:100px;">     <!-- ID -->
+                            <col style="width:auto;">     <!-- 상품명 -->
+                            <col style="width:150px;">    <!-- 가격 -->
+                            <col style="width:120px;">    <!-- 카테고리 -->
+                            <col style="width:120px;">    <!-- 품절 유무 -->
+                            <col style="width:auto;">     <!-- 작업 -->
+                        </colgroup>
+
                         <thead>
                         <tr>
                             <th>ID</th>

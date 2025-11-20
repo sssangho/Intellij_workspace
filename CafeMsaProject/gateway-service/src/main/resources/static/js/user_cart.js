@@ -1,13 +1,10 @@
-// /js/user_cart.js
-
 // ====== 공통 설정 ======
 const API_BASE = '/api/cart';
 
 // 로그인 된 유저 ID
 let CURRENT_USER_ID = null;
 
-// 모달 객체 & 장바구니 캐시
-let itemModal = null;
+// 장바구니 캐시 (필수는 아니지만 남겨둠)
 let cartItems = [];
 
 // 공통 헤더 생성 함수
@@ -75,12 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.debug('[cart] X-USER-ID =', CURRENT_USER_ID);
 
-    // 모달 초기화
-    const modalEl = document.getElementById('itemModal');
-    if (modalEl) {
-        itemModal = new bootstrap.Modal(modalEl);
-    }
-
     // 장바구니 로딩
     loadCart();
 
@@ -101,30 +92,33 @@ async function loadCart() {
         // 캐시에 저장
         cartItems = items || [];
 
-        const tbody = document.getElementById('cartTableBody');
-        const emptyBox = document.getElementById('cart-empty');
-        const totalEl = document.getElementById('cartTotal');
-        const tableCard = document.getElementById('cartTableCard');   // ★ 추가
+        const tbody     = document.getElementById('cartTableBody');
+        const emptyBox  = document.getElementById('cart-empty');
+        const totalEl   = document.getElementById('cartTotal');
+        const tableCard = document.getElementById('cartTableCard');
 
         tbody.innerHTML = '';
 
+        // 비었을 때 처리
         if (!cartItems.length) {
-            if (emptyBox) emptyBox.classList.remove('d-none');  // 빈 장바구니 카드 보이기
-            if (tableCard) tableCard.classList.add('d-none');   // 테이블 카드 숨기기
-            if (totalEl) totalEl.textContent = '0원';
+            if (emptyBox)  emptyBox.classList.remove('d-none');
+            if (tableCard) tableCard.classList.add('d-none');
+            if (totalEl)   totalEl.textContent = '0원';
             return;
         } else {
-            if (emptyBox) emptyBox.classList.add('d-none');     // 빈 장바구니 카드 숨기기
-            if (tableCard) tableCard.classList.remove('d-none'); // 테이블 카드 보이기
+            if (emptyBox)  emptyBox.classList.add('d-none');
+            if (tableCard) tableCard.classList.remove('d-none');
         }
-
 
         let total = 0;
 
         cartItems.forEach(item => {
-            const qty = Number(item.quantity || 1);
-            const price = Number(item.price || 0);
-            const subtotal = (typeof item.subtotal === 'number') ? item.subtotal : (price * qty);
+            const qty      = Number(item.quantity || 1);
+            const price    = Number(item.price || 0);
+            const subtotal = (typeof item.subtotal === 'number')
+                ? item.subtotal
+                : (price * qty);
+
             total += subtotal;
 
             const tr = document.createElement('tr');
@@ -134,11 +128,18 @@ async function loadCart() {
                     <div class="text-muted small">상품번호: ${item.productId ?? '-'}</div>
                 </td>
                 <td>${numberFormat(price)}원</td>
-                <td>${qty}</td>
+                
+                <!-- ✅ 수량: - 1 + 형태 -->
+                <td>
+                    <div class="qty-pill" data-id="${item.id}">
+                        <button type="button" class="qty-btn" data-action="minus">−</button>
+                        <span class="qty-value">${qty}</span>
+                        <button type="button" class="qty-btn" data-action="plus">+</button>
+                    </div>
+                </td>
+
                 <td>${numberFormat(subtotal)}원</td>
                 <td class="text-end">
-                    <button class="btn btn-sm btn-outline-secondary me-1"
-                            onclick="openEditModal(${item.id})">수정</button>
                     <button class="btn btn-sm btn-outline-danger"
                             onclick="removeItem(${item.id})">삭제</button>
                 </td>
@@ -153,36 +154,26 @@ async function loadCart() {
     }
 }
 
-// ====== 모달 열기 ======
-function openEditModal(cartItemId) {
-    const item = cartItems.find(i => i.id === cartItemId);
-    if (!item) {
-        alert('상품을 찾을 수 없습니다.');
-        return;
-    }
+// ====== 수량 변경 (+/- 버튼) ======
+// 문서 전체에서 qty-btn 클릭을 감지
+document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.qty-btn');
+    if (!btn) return;
 
-    document.getElementById('modalItemTitle').textContent = '장바구니 상품 수정';
-    document.getElementById('cartItemId').value = item.id;
-    document.getElementById('modalProductName').value = item.name ?? '';
-    document.getElementById('modalProductId').value = item.productId ?? '';
-    document.getElementById('modalPrice').value = item.price ?? 0;
-    document.getElementById('modalQuantity').value = item.quantity ?? 1;
+    const wrap = btn.closest('.qty-pill');
+    if (!wrap) return;
 
-    if (itemModal) itemModal.show();
-}
+    const id = wrap.dataset.id;
+    if (!id) return;
 
-// ====== 모달에서 수량 저장 ======
-async function saveCartItem() {
-    const id = document.getElementById('cartItemId').value;
-    let qty  = parseInt(document.getElementById('modalQuantity').value, 10);
+    const valueEl = wrap.querySelector('.qty-value');
+    let qty = parseInt(valueEl.textContent, 10) || 1;
 
-    if (!id) {
-        alert('잘못된 요청입니다.');
-        return;
-    }
-    if (isNaN(qty) || qty < 1) {
-        alert('수량은 1 이상이어야 합니다.');
-        return;
+    if (btn.dataset.action === 'minus') {
+        if (qty <= 1) return; // 1 이하로는 감소 X
+        qty--;
+    } else if (btn.dataset.action === 'plus') {
+        qty++;
     }
 
     try {
@@ -191,13 +182,13 @@ async function saveCartItem() {
             body: JSON.stringify({ quantity: qty })
         });
 
-        if (itemModal) itemModal.hide();
+        // 서버 반영 후 다시 로딩해서 합계/소계 갱신
         await loadCart();
-    } catch (e) {
-        console.error(e);
-        alert(e.message || '저장에 실패했습니다.');
+    } catch (e2) {
+        console.error(e2);
+        alert(e2.message || '수량 변경에 실패했습니다.');
     }
-}
+});
 
 // ====== 항목 삭제 ======
 async function removeItem(cartItemId) {

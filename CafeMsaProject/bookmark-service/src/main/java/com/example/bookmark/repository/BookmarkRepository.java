@@ -12,4 +12,8 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     // 같은 사람 + 같은 상품 중복 방지
     boolean existsByUserIdAndProductId(Long userId, Long productId);
+
+    boolean existsByIdAndUserId(Long id, Long userId);
+
+    void deleteByIdAndUserId(Long id, Long userId);
 }

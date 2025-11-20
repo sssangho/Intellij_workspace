@@ -34,30 +34,24 @@ async function loadCartItems() {
 
         const tbody = document.getElementById('cartTableBody');
         const emptyBox = document.getElementById('cart-empty');
-        // 테이블을 감싸는 card를 정확히 찾기 위해 tbody 기준으로 closest 사용
         const tableCard = document.getElementById('cartTableBody')?.closest('.card.card-elevated');
 
         // 안전하게 초기화
         tbody.innerHTML = '';
         document.getElementById('cartTotal').textContent = '0';
 
-        // items가 배열이 아닌 경우에도 안전 처리
         if (!Array.isArray(items) || items.length === 0) {
-            // 장바구니 비어있음 표시
             if (emptyBox) emptyBox.classList.remove('d-none');
             if (tableCard) tableCard.classList.add('d-none');
             return;
         }
 
-        // 장바구니가 있을 때: 빈 박스 숨기고 테이블 카드 보이기
         if (emptyBox) emptyBox.classList.add('d-none');
         if (tableCard) tableCard.classList.remove('d-none');
 
         let totalSum = 0;
 
-        // 장바구니 목록 표시
         items.forEach(item => {
-            // 방어적 처리: price/quantity가 숫자가 아닐 경우 안전하게 0 처리
             const price = Number(item.price) || 0;
             const quantity = Number(item.quantity) || 0;
             const total = price * quantity;
@@ -67,12 +61,17 @@ async function loadCartItems() {
             tr.innerHTML = `
                 <td>${item.productId}</td>
                 <td>${item.productName}</td>
-                <td>${quantity}</td>
+                <td>
+                    <div class="input-group input-group-sm" style="width:150px;">
+                        <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(${item.id}, -1)">−</button>
+                        <input type="text" id="qty-${item.id}" class="form-control text-center" value="${quantity}" />
+                        <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(${item.id}, 1)">+</button>
+                    </div>
+                </td>
                 <td>${price.toLocaleString()} 원</td>
                 <td>${total.toLocaleString()} 원</td>
                 <td>
-                    <button class="btn btn-sm btn-primary" onclick="editCartItem(${item.id})">수정</button>
-                    <button class="btn btn-sm btn-danger" onclick="deleteCartItem(${item.id})">삭제</button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteCartItem(${item.id})">삭제</button>
                 </td>
             `;
             tbody.appendChild(tr);
@@ -87,74 +86,58 @@ async function loadCartItems() {
 }
 
 
-/* ============================================
-   🔹 상품 수정 모달 열기
-============================================ */
-async function editCartItem(id) {
-    try {
-        const response = await fetch('/api/order_carts');
-        if (!response.ok) throw new Error('장바구니 조회 실패');
-        const items = await response.json();
 
-        const item = items.find(i => i.id === id);
-        if (!item) {
-            alert('상품을 찾을 수 없습니다.');
-            return;
-        }
+/// 수량 변경 함수
+function changeQuantity(itemId, delta) {
+    const input = document.getElementById(`qty-${itemId}`);
+    let current = parseInt(input.value);
 
-        document.getElementById('modalItemTitle').textContent = '상품 수정';
-        // 한 줄씩 바로 value 설정 + 수정 불가 항목 readonly
-        ['productId','productName','price'].forEach(key => {
-            const el = document.getElementById(key);
-            el.value = item[key];
-            el.readOnly = true;
-        });
-
-        // itemId는 hidden input이라 따로 세팅
-        document.getElementById('itemId').value = item.id;
-
-        // 수량은 수정 가능
-        const quantityInput = document.getElementById('quantity');
-        quantityInput.value = item.quantity;
-        quantityInput.readOnly = false;
-
-        itemModal.show();
-
-    } catch (error) {
-        console.error('상품 정보를 불러오는데 실패했습니다:', error);
-        alert('상품 정보를 불러오는데 실패했습니다.');
+    if (isNaN(current)) {
+        current = 0; // NaN이면 기본값 0으로 설정
     }
+
+    current += delta;
+
+    if (current < 1) current = 1; // 최소 1개 유지
+    input.value = current;
+
+    // 서버에 수량 업데이트 요청 보내기
+    updateCartItemQuantity(itemId, current);
 }
 
-// ============================
-// 상품 저장 (추가 / 수정)
-// ============================
-async function saveCartItem() {
-    const id = document.getElementById('itemId').value;
-    const item = {
-        productId: parseInt(document.getElementById('productId').value),
-        productName: document.getElementById('productName').value,
-        quantity: parseInt(document.getElementById('quantity').value),
-        price: parseFloat(document.getElementById('price').value)
-    };
-
-    const url = id ? `/api/order_carts/${id}` : '/api/order_carts';
-    const method = id ? 'PUT' : 'POST';
-
+// 수량 업데이트 요청
+async function updateCartItemQuantity(itemId, quantity) {
     try {
-        const response = await fetch(url, {
-            method: method,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(item)
+
+        // 1) 전체 목록 불러와서 해당 item 찾기
+        const listRes = await fetch('/api/order_carts');
+        if (!listRes.ok) throw new Error("장바구니 전체 조회 실패");
+        const items = await listRes.json();
+
+        const item = items.find(i => i.id === itemId);
+        if (!item) throw new Error("아이템을 찾을 수 없음");
+
+        // 2) 기존 정보 + 변경된 수량 포함하여 전체 객체 전송
+        const updatedItem = {
+            productId: item.productId,
+            productName: item.productName,
+            price: item.price,
+            quantity: quantity
+        };
+
+        const response = await fetch(`/api/order_carts/${itemId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedItem)
         });
 
-        if (!response.ok) throw new Error('저장 실패');
-        itemModal.hide();
+        if (!response.ok) throw new Error("수량 업데이트 실패");
+
         loadCartItems();
-        alert('저장되었습니다.');
+
     } catch (error) {
-        console.error('저장 실패:', error);
-        alert('저장에 실패했습니다.');
+        console.error("수량 업데이트 오류:", error);
+        alert("수량 업데이트 실패");
     }
 }
 
